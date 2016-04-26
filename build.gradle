@@ -1,0 +1,30 @@
+apply plugin: 'groovy'
+apply plugin: 'maven-publish'
+
+version = 1.0
+
+repositories {
+    mavenCentral()
+}
+
+
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId 'uk.ac.gate'
+            artifactId 'gate-dsl'
+            version '1.0'
+
+            from components.java
+        }
+    }
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.4'
+    compile 'org.yaml:snakeyaml:1.17'
+    compile 'uk.ac.gate:gate-core:8.1'
+
+    testCompile 'junit:junit:4.12'
+}
