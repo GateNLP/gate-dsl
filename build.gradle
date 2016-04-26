@@ -1,5 +1,9 @@
+plugins {
+  id 'nebula.provided-base' version '3.0.3' // Add the provided scope.
+}
 apply plugin: 'groovy'
 apply plugin: 'maven-publish'
+
 
 version = 1.0
 
@@ -22,7 +26,7 @@ publishing {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.4'
+    provided 'org.codehaus.groovy:groovy-all:2.4.4'
     compile 'org.yaml:snakeyaml:1.17'
     compile 'uk.ac.gate:gate-core:8.1'
 
