@@ -166,7 +166,7 @@ class PipelineSpec {
 	def run(Closure<gate.Document> task) {
 		def pr = new PRSpec(_context)
 		pr.name "Closure Runner"
-		pr.cls "groovy_utils.ClosureRunner"
+		pr.cls "uk.ac.gate.groovy.ClosureRunner"
 		pr.init "targetClosure": task
 		addPr(pr)
 	}

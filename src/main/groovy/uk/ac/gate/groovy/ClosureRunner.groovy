@@ -21,7 +21,7 @@ class AddClosureToPR {
     public void add(Closure<gate.Document> task) {
         def initFeatures = Factory.newFeatureMap()
         initFeatures.targetClosure = task
-        this.add(Factory.createResource("groovy_utils.ClosureRunner", initFeatures))
+        this.add(Factory.createResource("uk.ac.gate.groovy.ClosureRunner", initFeatures))
     }
 }
 

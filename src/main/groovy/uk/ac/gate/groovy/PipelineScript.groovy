@@ -7,9 +7,11 @@ import gate.Gate
 import gate.Factory 
 import java.util.ArrayList
 import java.net.URL
+import groovy.io.FileType
 
 abstract class PipelineScript extends Script {
     def pipeline
+    def context
 
     // I don't really understand why, but if we use properties here, they
     // just get unset when we leave the scope of the PipelineBuilder closure
@@ -34,6 +36,8 @@ abstract class PipelineScript extends Script {
            "Path to use for GATE home.")
         cli._(longOpt:"base", args:1, argName:"base", 
            "Base path to use for the script")
+        cli.P(args:2, valueSeparator:'=', argName:'property=value',
+               'use value for given property')
 
         def options = cli.parse(args)
 
@@ -45,6 +49,9 @@ abstract class PipelineScript extends Script {
             options.base ? new File(options.base).toURI().toURL() : null
 
         def params = [:]
+        if (options.Ps) {
+             params << options.Ps.collate(2).collectEntries(Closure.IDENTITY)
+        }
 
         // The context is needed to parse paths in the YAML properly, so build a partial context
         // to use while loading the config.
@@ -52,11 +59,11 @@ abstract class PipelineScript extends Script {
         if (options.config) {
             new File(options.config).withInputStream { inputStream ->
                 def yamlLoader = new Yaml(new URLConstructor(partialContext))
-                params = yamlLoader.load(inputStream)
+                params << yamlLoader.load(inputStream)
             }            
         }
 
-        def context = buildContext(gateHome,
+        context = buildContext(gateHome,
                                    basePath,
                                    params)
 
@@ -138,6 +145,8 @@ abstract class PipelineScript extends Script {
             println "No action given. Available actions: "
             println "gapp"
             println "run"
+            println "deps"
+
         } else {
             def action = args[0]
 
@@ -147,6 +156,15 @@ abstract class PipelineScript extends Script {
                     break;
                 case "run":
                     runPipeline(pipeline, args[1..-2], args[-1])
+                    break;
+                case "runDir":
+                    def inputFiles = []
+
+                    new File(args[1]).eachFile FileType.FILES, { inputFile ->
+                        inputFiles << "${inputFile}"
+                    }
+
+                    runPipeline(pipeline, inputFiles, args[-1])
                     break;
                 case "deps":
                     println urlDependencies(pipeline).join("\n")
