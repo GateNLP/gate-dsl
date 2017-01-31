@@ -37,7 +37,7 @@ class PipelineContext {
 	PipelineContext(PipelineContext pc, Map<Object, Object> params) {
 		this.gateHome = pc.gateHome
 		this.basePath = pc.basePath
-		this.params   = new FeatureMapSpec(this, params)
+		this.params   = new FeatureMapSpec(this, params + pc.params)
 	}
 
 	static PipelineContext detectGateHome(Map params = [:]) {
@@ -68,7 +68,7 @@ class PipelineContext {
 		return relativise(gateHome, relativePath)
 	}
 
-	def getParam(String key) {
+	def param(String key) {
 		return params.get(key)
 	}
 

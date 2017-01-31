@@ -8,6 +8,7 @@ import gate.Factory
 import java.util.ArrayList
 import java.net.URL
 import groovy.io.FileType
+import gate.util.persistence.PersistenceManager
 
 abstract class PipelineScript extends Script {
     def pipeline
@@ -152,7 +153,8 @@ abstract class PipelineScript extends Script {
 
             switch (action) {
                 case "gapp": 
-                    println "I would export a gapp, but I don't support this yet."
+                    PersistenceManager.saveObjectToFile(pipeline.build(), new File(args[1]), false, false)
+
                     break;
                 case "run":
                     runPipeline(pipeline, args[1..-2], args[-1])

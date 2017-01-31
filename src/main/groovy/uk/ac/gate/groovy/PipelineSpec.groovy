@@ -42,6 +42,13 @@ class PipelineSpec {
 		return _prs
 	}
 
+	/*
+	 * Gets the value for a parameter explicitly
+	 */
+	def param(String key) {
+		return _context.params[key]
+	}
+
 	/**
 	 * Used to explicitly set the value for parameters in the pipeline context.
 	 */

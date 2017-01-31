@@ -4,14 +4,11 @@ plugins {
 apply plugin: 'groovy'
 apply plugin: 'maven-publish'
 
-
 version = 1.0
 
 repositories {
     mavenCentral()
 }
-
-
 
 publishing {
     publications {
