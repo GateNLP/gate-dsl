@@ -55,6 +55,27 @@ class PRSpec {
 	    	cl()
 		}
 
+	def setRuntime(Closure cl) {
+			cl.resolveStrategy = Closure.DELEGATE_FIRST
+	    	cl.delegate = _runtime
+	    	cl()
+		}
+
+	def setInit(Closure cl) {
+			cl.resolveStrategy = Closure.DELEGATE_FIRST
+
+	    	cl.delegate = _init
+	    	cl()
+		}
+
+	def setFeatures(Closure cl) {
+			cl.resolveStrategy = Closure.DELEGATE_FIRST
+
+	    	cl.delegate = _features
+	    	cl()
+		}
+
+
     String toString() {
     	return "${_cls}: ${_init} ${_runtime} ${_features}"
     }

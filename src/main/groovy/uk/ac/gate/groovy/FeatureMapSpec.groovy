@@ -41,6 +41,7 @@ class FeatureMapSpec extends LinkedHashMap<Object, Object> {
 	 */
 	public static FeatureMapSpec fromClosure(PipelineContext context, Closure cl) {
 		def instance = new FeatureMapSpec(context, cl)
+		cl.resolveStrategy = Closure.DELEGATE_FIRST
 		cl.delegate = instance
 		cl()
 
@@ -71,7 +72,7 @@ class FeatureMapSpec extends LinkedHashMap<Object, Object> {
 		}
 	}
 
-	/*
+	
 	void setProperty(String name, Object value) {
 		if (value instanceof Closure) {
 			// Make this syntax available recursively.
@@ -83,7 +84,7 @@ class FeatureMapSpec extends LinkedHashMap<Object, Object> {
 		} else {
 		    this.put(name, value)
 		}
-	}*/
+	}
 
 	FeatureMap toDeepFeatureMap() {
 		// Convert to a feature map, but recursively.
