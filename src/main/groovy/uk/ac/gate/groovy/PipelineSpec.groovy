@@ -155,7 +155,7 @@ class PipelineSpec {
 	def pipeline(URL inputFile, Closure cl) {
 		def newContext = new PipelineContext(_context, 
 			FeatureMapSpec.fromClosure(_context, cl)) // Features will come from the closure
-		addPr(new GroovyShell(PipelineContext.classLoader).parse(inputFile.toURI()).loadSpec(_context))
+		addPr(new GroovyShell(PipelineContext.classLoader).parse(inputFile.toURI()).loadSpec(newContext))
 	}
 
 	def pipeline(URL inputFile) {
